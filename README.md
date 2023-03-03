@@ -1,6 +1,7 @@
 # Interactive Score Editor
 A python library that combines score editing tools with audio output.<br>
 ![image](https://img.shields.io/badge/license-Apache--2.0-brightgreen)
+![image](https://img.shields.io/github/issues/sadigulcelik/interactive-score-editor)
 
 ## Overview
 
