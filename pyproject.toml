@@ -40,6 +40,10 @@ develop = [
     "pytest-cov>=2.6.1",
     "twine",
     "wheel",
+    "numpy",
+    "pyaudio",
+    "IPython",
+    "config"
 ]
 
 [tool.black]

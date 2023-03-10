@@ -5,13 +5,12 @@ import os
 import operator as op
 from IPython.display import Image
 
-import subprocess
 import shutil
 
-import time
 
 import numpy as np
 import pyaudio
+import config
 
 
 def FileGenerator(voices):
@@ -37,14 +36,12 @@ def FileGenerator(voices):
 
 
 def generatePng(temp_dir):
-    # need to find a better solution for importing lilypond 
+    # need to find a better solution for importing lilypond
     # for code coverage and testing, temporarily inserting filler code that returns an image
 
     import shutil
 
     shutil.copyfile("src/score.png", os.path.join(temp_dir, "preview.png"))
-
-
 
     # lpdir = "src/lilypond/bin/lilypond"
     # filepath = str(os.path.join(temp_dir, "file.ly"))
@@ -59,10 +56,6 @@ def generatePng(temp_dir):
 
 
 def displayNotes(voices):
-    # temp_top = os.path.join(os.getcwd(),"ise_temp-a8j49")
-    # if(os.path.isdir(temp_top)):
-    #     shutil.rmtree(temp_top)
-    # os.mkdir(temp_top)
     temp_top = os.path.join(os.getcwd(), "temp")
     temp_dir = tempfile.mkdtemp(dir=temp_top)
     ly_output = FileGenerator(voices)
@@ -145,16 +138,21 @@ def playNotes(voice_frequencies):
 
     sample_sum = sample_sum.astype(np.float32)
 
-    p = pyaudio.PyAudio()
-
     output_bytes = (sample_sum / np.max(np.abs(sample_sum))).tobytes()
-    stream = p.open(format=pyaudio.paFloat32, channels=1, rate=sample_rate, output=True)
 
-    stream.write(output_bytes)
-
-    stream.stop_stream()
-    stream.close()
-
-    p.terminate()
+    playBytes(output_bytes, sample_rate)
 
     return sample_sum, sample
+
+
+def playBytes(output_bytes, sample_rate):
+    if config.play_audio:
+        p = pyaudio.PyAudio()
+        stream = p.open(format=pyaudio.paFloat32, channels=1, rate=sample_rate, output=True)
+
+        stream.write(output_bytes)
+
+        stream.stop_stream()
+        stream.close()
+
+        p.terminate()
