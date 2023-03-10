@@ -1,4 +1,9 @@
-from src import *
+from src.Base import FileGenerator, generatePng, convertNotes, playNotes, displayNotes
+
+import os
+from IPython.display import Image
+import numpy as np
+import config
 
 
 def test_FileGenerator():
@@ -26,7 +31,7 @@ def test_FileGenerator():
 def test_generatePng():
     with open("file.ly", "w") as f:
         f.write(
-            """\\version "2.24.1" 
+            """\\version "2.24.1"
         \\new Staff <<
     \\new Voice = "0" { \\voiceOne c' d' e' f' g'}
     >>"""
@@ -38,7 +43,7 @@ def test_generatePng():
 
     os.remove("file.ly")
     os.remove("preview.png")
-    if(os.path.exists("preview.preview.png")):
+    if os.path.exists("preview.preview.png"):
         os.remove("preview.preview.png")
 
 
@@ -64,9 +69,10 @@ def test_convertNotes():
 
 
 def test_playNotes():
-
     # test whether frequencies are played properly
-    keys = [[12, 14, 16]]
+
+    config.play_audio = False
+
     freqs = [[261.63, 293.66974569918125, 329.63314428399565]]
     piece, lastnote = playNotes(freqs)
 
@@ -85,11 +91,12 @@ def test_playNotes():
     for i in range(0, 44100, 5000):
         assert np.linalg.norm(piece[i] - correct_values[i]) <= 0.05
 
+
 # integration tests
 
-def test_voices_to_freq():
 
-    #test conversion of voices to list of frequencies
+def test_voices_to_freq():
+    # test conversion of voices to list of frequencies
     voices = ["c' d' e' f' g' a' b' c''"]
     keys, freqs = convertNotes(voices)
     assert np.array_equal(keys[0], [12, 14, 16, 17, 19, 21, 23, 24])
@@ -97,30 +104,55 @@ def test_voices_to_freq():
     arrtest = np.array([260.63, 294.67, 330.633, 350.234, 393.002, 441.007, 494.892, 524.26])
     assert np.linalg.norm(np.array(freqs[0]) - arrtest) < 3
 
+
 def test_voices_to_notes():
     # test conversion of voices to notes
 
+    config.play_audio = False
+
     voices = ["c' d' e'", "e' f' g'"]
 
     keys, freqs = convertNotes(voices)
 
     piece, lastnote = playNotes(freqs)
-    correct_values = {0: 0.0, 5000: -0.40214407, 10000: -0.19854277, 15000: 0.7271434, 20000: -0.18083608, 25000: -0.83695495, 30000: 0.92700917, 35000: -3.0091503, 40000: 2.7686481}
+    correct_values = {
+        0: 0.0,
+        5000: -0.40214407,
+        10000: -0.19854277,
+        15000: 0.7271434,
+        20000: -0.18083608,
+        25000: -0.83695495,
+        30000: 0.92700917,
+        35000: -3.0091503,
+        40000: 2.7686481,
+    }
     for key in correct_values:
-        assert (piece[key] - correct_values[key])<= 0.05
+        assert (piece[key] - correct_values[key]) <= 0.05
+
 
 def test_pipeline():
-
     # test entire pipeline
+
+    config.play_audio = False
 
     voices = ["c' d' e'", "e' f' g'"]
 
     keys, freqs = convertNotes(voices)
 
     piece, lastnote = playNotes(freqs)
-    correct_values = {0: 0.0, 5000: -0.40214407, 10000: -0.19854277, 15000: 0.7271434, 20000: -0.18083608, 25000: -0.83695495, 30000: 0.92700917, 35000: -3.0091503, 40000: 2.7686481}
+    correct_values = {
+        0: 0.0,
+        5000: -0.40214407,
+        10000: -0.19854277,
+        15000: 0.7271434,
+        20000: -0.18083608,
+        25000: -0.83695495,
+        30000: 0.92700917,
+        35000: -3.0091503,
+        40000: 2.7686481,
+    }
     for key in correct_values:
-        assert (piece[key] - correct_values[key])<= 0.05
+        assert (piece[key] - correct_values[key]) <= 0.05
 
     img = displayNotes(voices)
     assert type(img) == Image
