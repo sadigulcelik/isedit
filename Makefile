@@ -4,6 +4,10 @@
 develop:  ## install dependencies and build library
 	python -m pip install -e .[develop]
 
+test-develop
+	sudo apt install portaudio19-dev python3-pyaudio
+	sudo apt install -y lilypond
+
 build:  ## build the python library
 	python setup.py build build_ext --inplace
 

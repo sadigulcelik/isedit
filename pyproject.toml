@@ -43,7 +43,11 @@ develop = [
     "numpy",
     "pyaudio",
     "IPython",
-    "config"
+    "config",
+    "midiutil",
+    "pygame", 
+    "deprecation"
+    
 ]
 
 [tool.black]
@@ -77,6 +81,7 @@ combine_as_imports = true
 
 [tool.mypy]
 python_version = '3.10'
+ignore_missing_imports = true
 # show_error_codes = true
 # follow_imports = 'silent'
 # strict_optional = true
