@@ -1,14 +1,15 @@
-from src.Base import FileGenerator, generatePng, convertNotes, playNotes, displayNotes
+from src.Base import _FileGenerator, _generatePng, convertNotes, playNotes, displayNotes, Piece
 
 import os
 from IPython.display import Image
 import numpy as np
 import config
+from midiutil import MIDIFile
 
 
 def test_FileGenerator():
     voices = ["c' d' e' f' g' a' b' c''", "e'"]
-    result = FileGenerator(voices)
+    result = _FileGenerator(voices, "4/4")
 
     def getNextVoice(voicestring):
         start = voicestring.find("{")
@@ -19,13 +20,13 @@ def test_FileGenerator():
         assert "}" not in voice
         return voicearr, voicestring[end + 1 :]
 
-    voice1, remaining1 = getNextVoice(result)
+    _, remaining0 = getNextVoice(result)
+    voice1, remaining1 = getNextVoice(remaining0)
     voice2, remaining2 = getNextVoice(remaining1)
 
     # we test that when we parse, we get what we expect
-
-    assert np.array_equal(voice1, ["\\voiceOne", "c'", "d'", "e'", "f'", "g'", "a'", "b'", "c''"])
-    assert np.array_equal(voice2, ["\\voiceTwo", "e'"])
+    assert np.array_equal(voice1, ["\\voiceOne", '\\time', "4/4", "c'", "d'", "e'", "f'", "g'", "a'", "b'", "c''"])
+    assert np.array_equal(voice2, ["\\voiceTwo", '\\time', "4/4", "e'"])
 
 
 def test_generatePng():
@@ -36,7 +37,7 @@ def test_generatePng():
     \\new Voice = "0" { \\voiceOne c' d' e' f' g'}
     >>"""
         )
-    generatePng("")
+    _generatePng("")
 
     # we test that the sheet music image is generated
     assert os.path.isfile("preview.png")
@@ -49,8 +50,20 @@ def test_generatePng():
 
 def test_displayNotes():
     # we test that an image is returned
-    img = displayNotes(["c' d' e' f' g'"])
+    img = displayNotes(["c' d' e' f' g'"], "4/4")
     assert type(img) == Image
+
+
+def test_PieceDisplay():
+    p1 = Piece(60, "3/4")
+    p1.addVoice("c'4 d'4 e'4 f'4 g'4")
+    assert type(p1.getScore()) == Image
+
+
+def test_Midi():
+    p1 = Piece(60, "3/4")
+    p1.addVoice("c'4 d'4 e'4 f'4 g'4")
+    assert type(p1.midi) == MIDIFile
 
 
 def test_convertNotes():
@@ -98,7 +111,7 @@ def test_playNotes():
 def test_voices_to_freq():
     # test conversion of voices to list of frequencies
     voices = ["c' d' e' f' g' a' b' c''"]
-    keys, freqs = convertNotes(voices)
+    keys, freqs, _ = convertNotes(voices)
     assert np.array_equal(keys[0], [12, 14, 16, 17, 19, 21, 23, 24])
 
     arrtest = np.array([260.63, 294.67, 330.633, 350.234, 393.002, 441.007, 494.892, 524.26])
@@ -112,7 +125,7 @@ def test_voices_to_notes():
 
     voices = ["c' d' e'", "e' f' g'"]
 
-    keys, freqs = convertNotes(voices)
+    keys, freqs, _ = convertNotes(voices)
 
     piece, lastnote = playNotes(freqs)
     correct_values = {
@@ -137,7 +150,7 @@ def test_pipeline():
 
     voices = ["c' d' e'", "e' f' g'"]
 
-    keys, freqs = convertNotes(voices)
+    keys, freqs, _ = convertNotes(voices)
 
     piece, lastnote = playNotes(freqs)
     correct_values = {
@@ -154,5 +167,13 @@ def test_pipeline():
     for key in correct_values:
         assert (piece[key] - correct_values[key]) <= 0.05
 
-    img = displayNotes(voices)
+    img = displayNotes(voices, "4/4")
     assert type(img) == Image
+
+
+def test_Piece():
+    p1 = Piece(60, "3/4")
+    p1.addVoice("c'4 d'4 e'4 f'4 g'4 a'4 b'4 c''4 b'4 c''2.")
+    p1.addVoice("c' d' e'", 4, instrument=42)
+    assert type(p1.getScore()) == Image
+    assert type(p1.midi) == MIDIFile

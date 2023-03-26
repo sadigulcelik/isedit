@@ -34,7 +34,7 @@ jobs:
 
     - name: Install dependencies
       run: |
-        sudo apt install portaudio19-dev python3-pyaudio
+        make test-develop
         make develop
 
     - name: Build 
