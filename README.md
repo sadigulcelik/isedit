@@ -45,7 +45,11 @@ $ lilypond --version
 
 # Quick start example
 
+For now, ensure you have a folder named `temp` in the current directory in order to ensure functinality of getScore() (this will be amended in a future release)
 ```python
+import importlib  
+ise = importlib.import_module("interactive-score-editor.src.Base")
+Piece = ise.Piece
 p1 = Piece(60, "3/4")
 p1.addVoice("e' f' g'", 4)
 p1.addVoice("c'4 d'4 e'4 f'4 g'4 a'4 b'4 c''4 b'4 c''2.")
