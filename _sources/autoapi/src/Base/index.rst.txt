@@ -1,0 +1,108 @@
+:py:mod:`src.Base`
+==================
+
+.. py:module:: src.Base
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   src.Base.Piece
+
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   src.Base._FileGenerator
+   src.Base._generatePng
+   src.Base.displayNotes
+   src.Base.convertNotes
+   src.Base.playNotes
+   src.Base._playBytes
+   src.Base.getDurationRepresentation
+
+
+
+.. py:function:: _FileGenerator(voices, time_signature)
+
+
+.. py:function:: _generatePng(temp_dir)
+
+
+.. py:function:: displayNotes(voices, time_signature)
+
+
+.. py:function:: convertNotes(voices)
+
+
+.. py:function:: playNotes(voice_frequencies)
+
+
+.. py:function:: _playBytes(output_bytes, sample_rate)
+
+
+.. py:function:: getDurationRepresentation(n)
+
+
+.. py:class:: Piece(tempo, time_signature='4/4')
+
+   Piece that can be played and displayed
+
+   Attributes
+   ----------
+   dx : float > 0
+       Spacing of the equidistant grid.
+
+   Methods
+   -------
+   addVoice
+       adds a voice
+   _addVoiceNL
+       helper that adds a voice
+   getScore
+       return the score image
+   _setMidi
+       sets the midi file to match voices
+   play
+       plays the midi file
+   stop
+       stops the midi file
+
+
+   Examples
+   --------
+
+   p1 = Piece(60, "3/4")
+   p1.addVoice("c'4 d'4 e'4 f'4 g'4 a'4 b'4 c''4 b'4 c''2.")
+   p1.play()
+   p1.getScore()
+
+
+
+   .. py:method:: addVoice(voice, nl=None, instrument=1)
+
+
+   .. py:method:: _addVoiceNL(voice, notelengths)
+
+
+   .. py:method:: getScore()
+
+
+   .. py:method:: _setMidi()
+
+
+   .. py:method:: play()
+
+
+   .. py:method:: stop()
+
+
+
