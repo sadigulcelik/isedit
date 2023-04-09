@@ -7,11 +7,11 @@ requires = [
 build-backend="setuptools.build_meta"
 
 [project]
-name = "interactive-score-editor"
+name = "isedit"
 authors = [{name = "Sadi Gulcelik", email = "sg3790@columbia.edu"}]
 description="Interactive Score Editor"
 readme = "README.md"
-version = "0.1.2"
+version = "0.1.3"
 requires-python = ">=3.7"
 
 dependencies = []
@@ -25,7 +25,7 @@ classifiers = [
 file = "LICENSE"
 
 [project.urls]
-repository = "https://github.com/sadigulcelik/interactive-score-editor"
+repository = "https://github.com/sadigulcelik/isedit"
 
 [project.optional-dependencies]
 develop = [
@@ -64,7 +64,7 @@ ignore = [
 ignore = ['E203', 'W503']
 max-line-length=120
 exclude=[
-    'src/tests/test_all.py',
+    'isedit/tests/test_all.py',
     'function_testing.ipynb'
 ]
 per-file-ignores= [
@@ -97,4 +97,4 @@ ignore_missing_imports = true
 # disallow_untyped_calls = true
 
 [tool.pytest.ini_options]
-testpaths = 'src/tests'
+testpaths = 'isedit/tests'

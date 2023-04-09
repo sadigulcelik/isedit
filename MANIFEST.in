@@ -1,4 +1,4 @@
-graft interactive-score-editor
+graft isedit
 
 include LICENSE
 include README.md
@@ -7,12 +7,18 @@ include CONTRIBUTING.md
 include .bumpversion.cfg
 include pyproject.toml
 include Makefile
-include src/score.png
+include isedit/score.png
 include temp/TESTING.md
 
 prune .github
 exclude .gitignore
 exclude .gitattributes
+
+recursive-include docs *.bat
+recursive-include docs *.md
+recursive-include docs *.py
+recursive-include docs *.rst
+recursive-include docs Makefile
 
 # Patterns to exclude from any directory
 global-exclude *~
@@ -21,4 +27,4 @@ global-exclude *.pyo
 global-exclude .git
 global-exclude .ipynb_checkpoints
 global-exclude .DS_Store
-global-exclude tests/
+global-exclude tests

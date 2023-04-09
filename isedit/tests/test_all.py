@@ -1,4 +1,4 @@
-from src.Base import _FileGenerator, _generatePng, convertNotes, playNotes, displayNotes, Piece
+from isedit.Base import _FileGenerator, _generatePng, convertNotes, playNotes, displayNotes, Piece
 
 import os
 from IPython.display import Image

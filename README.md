@@ -1,10 +1,10 @@
 # Interactive Score Editor
 A python library that combines score editing tools with audio output.<br>
-[![PyPI](https://img.shields.io/pypi/v/interactive-score-editor)](https://pypi.org/project/interactive-score-editor/)
-[![Build Status](https://github.com/sadigulcelik/interactive-score-editor/actions/workflows/build.yml/badge.svg)](https://github.com/sadigulcelik/interactive-score-editor/actions?query=workflow%3A%22Build+Status%22)
-[![codecov](https://codecov.io/gh/sadigulcelik/interactive-score-editor/branch/main/graph/badge.svg?token=Y3YYB6AYD1)](https://codecov.io/gh/sadigulcelik/interactive-score-editor)
+[![PyPI](https://img.shields.io/pypi/v/isedit)](https://pypi.org/project/isedit/)
+[![Build Status](https://github.com/sadigulcelik/isedit/actions/workflows/build.yml/badge.svg)](https://github.com/sadigulcelik/isedit/actions?query=workflow%3A%22Build+Status%22)
+[![codecov](https://codecov.io/gh/sadigulcelik/isedit/branch/main/graph/badge.svg?token=Y3YYB6AYD1)](https://codecov.io/gh/sadigulcelik/isedit)
 ![image](https://img.shields.io/badge/license-Apache--2.0-brightgreen)
-![image](https://img.shields.io/github/issues/sadigulcelik/interactive-score-editor)
+![image](https://img.shields.io/github/issues/sadigulcelik/isedit)
 
 ## Overview
 
@@ -48,10 +48,11 @@ $ lilypond --version
 
 For now, ensure you have a folder named `temp` in the current directory in order to ensure functinality of getScore() (this will be amended in a future release)
 ```python
-import importlib  
-ise = importlib.import_module("interactive-score-editor.src.Base")
-Piece = ise.Piece
+import isedit
+Piece = isedit.Piece
 p1 = Piece(60, "3/4")
+
+p1.addVoice("e' f' g'", 4)
 p1.addVoice("e' f' g'", 4)
 p1.addVoice("c'4 d'4 e'4 f'4 g'4 a'4 b'4 c''4 b'4 c''2.")
 p1.play()
@@ -61,5 +62,5 @@ p1.getScore()
 The above example demonstrates the primary functionality of the piece object; the ability to play and display notes using the same object.
 
 # Contributions
-See the guidelines for [Contributing](https://github.com/sadigulcelik/interactive-score-editor/blob/main/CONTRIBUTING.md)
+See the guidelines for [Contributing](https://github.com/sadigulcelik/isedit/blob/main/CONTRIBUTING.md)
 
