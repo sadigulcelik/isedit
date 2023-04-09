@@ -1,4 +1,13 @@
+
+## This package has been renamed as [isedit](https://pypi.org/project/isedit/)
+
+<br>
+<br>
+
 # Interactive Score Editor
+
+
+
 A python library that combines score editing tools with audio output.<br>
 [![PyPI](https://img.shields.io/pypi/v/interactive-score-editor)](https://pypi.org/project/interactive-score-editor/)
 [![Build Status](https://github.com/sadigulcelik/interactive-score-editor/actions/workflows/build.yml/badge.svg)](https://github.com/sadigulcelik/interactive-score-editor/actions?query=workflow%3A%22Build+Status%22)
