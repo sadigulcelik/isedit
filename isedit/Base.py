@@ -73,25 +73,17 @@ def _generatePng(temp_dir):
     )
 
 
-"""Return an image of the score
-
-Parameters
-----------
-voices : list
-    List of voices, where each voice is in lilypond formatting
-time_signature : string
-    The time signature
-
-Returns
--------
-IPython.display.image
-    Image of the score
-
-"""
-
-
 def displayNotes(voices, time_signature):
-    temp_top = os.path.join(os.getcwd(), "temp")
+    """Return an image of the score
+
+    :param voices: List of voices, where each voice is a string in lilypond formatting
+    :type voices: list
+    :param time_signature: the time signature
+    :type time_signature: string
+    :return: Image of the source
+    :rtype: IPython.display.image
+    """ """"""
+    temp_top = os.path.join(os.getcwd(), "")
     temp_dir = tempfile.mkdtemp(dir=temp_top)
     ly_output = _FileGenerator(voices, time_signature)
     with open(os.path.join(temp_dir, 'file.ly'), 'w') as f:
@@ -104,26 +96,14 @@ def displayNotes(voices, time_signature):
     return img
 
 
-"""Return lists of keys, frequencies and durations from voices
-
-Parameters
-----------
-voices : array_like
-    List of voices, where each voice is in lilypond formatting
-
-Returns
--------
-keys: list
-    List of keys
-freqs: list
-    List of frequencies
-durations: list
-    List of durations
-
-"""
-
-
 def convertNotes(voices):
+    """Return lists of keys, frequencies and durations from voices
+
+    :param voices: List of voices, where each voice is a string in lilypond formatting
+    :type voices: list
+    :return: List of keys, frequencies and durations
+    :rtype: (list, list, list)
+    """ """"""
     allkeys = []
     allfreqs = []
     alldurations = []
@@ -182,25 +162,15 @@ def convertNotes(voices):
     return allkeys, allfreqs, alldurations
 
 
-"""Plays notes
-
-Parameters
-----------
-voice_frequencies : list
-    List of voices, where each voice is in lilypond formatting
-
-Returns
--------
-np.array
-    numpy array of played sound
-np.array
-    numpy array of last added voice
-
-"""
-
-
-@deprecation.deprecated(details="Use the midi output to play notes instead")
+@deprecation.deprecated(details="Use the midi output to play notes instead", deprecated_in="0.0.0")
 def playNotes(voice_frequencies):
+    """Plays the notes with the given frequencies, and returns
+
+    :param voice_frequencies: List of frequencies to play
+    :type voice_frequencies: list
+    :return: sound array played, sound array of the last voice
+    :rtype: tuple
+    """
     maxdur = 0
     for frequencies in voice_frequencies:
         if len(frequencies) > maxdur:
@@ -286,7 +256,7 @@ string
 """
 
 
-def getDurationRepresentation(n):
+def _getDurationRepresentation(n):
     if n not in [1, 2, 3, 4, 6, 8, 12, 16, 24, 32, 48, 64, 96, 128]:
         raise Exception("unsupported note length")
     if n == 3:
@@ -305,39 +275,7 @@ def getDurationRepresentation(n):
 
 
 class Piece:
-    """Piece that can be played and displayed
-
-    Attributes
-    ----------
-    dx : float > 0
-        Spacing of the equidistant grid.
-
-    Methods
-    -------
-    addVoice
-        adds a voice
-    _addVoiceNL
-        helper that adds a voice
-    getScore
-        return the score image
-    _setMidi
-        sets the midi file to match voices
-    play
-        plays the midi file
-    stop
-        stops the midi file
-
-
-    Examples
-    --------
-
-    p1 = Piece(60, "3/4")
-    p1.addVoice("c'4 d'4 e'4 f'4 g'4 a'4 b'4 c''4 b'4 c''2.")
-    p1.play()
-    p1.getScore()
-
-
-    """
+    """Piece that can be played and displayed"""
 
     def __init__(self, tempo, time_signature="4/4"):
         self.tempo = tempo
@@ -346,7 +284,20 @@ class Piece:
         self.instruments = []
         self.voices = []
 
+    """adds a voice
+    
+    """
+
     def addVoice(self, voice, nl=None, instrument=1):
+        """_summary_
+
+        :param voice: lilypond style string for a given voice
+        :type voice: string
+        :param nl: default length, if any, defaults to None
+        :type nl: int, optional
+        :param instrument: midi code for instrument for the given voice, defaults to 1 (piano)
+        :type instrument: int, optional
+        """
         if nl is None:
             self.voices.append(voice)
         else:
@@ -361,17 +312,22 @@ class Piece:
         if not (isinstance(type(notelengths), type([1]))):
             voice_arr = voice.split(" ")
             for note in voice_arr:
-                result += note + getDurationRepresentation(notelengths) + " "
+                result += note + _getDurationRepresentation(notelengths) + " "
         else:
             voice_arr = voice.split(" ")
             if not len(voice_arr) == len(notelengths):
                 raise Exception("number of notes does not match number of durations")
             for i in range(0, len(voice_arr)):
-                result += voice_arr[i] + getDurationRepresentation(notelengths[i]) + " "
+                result += voice_arr[i] + _getDurationRepresentation(notelengths[i]) + " "
 
         self.voices.append(result)
 
     def getScore(self):
+        """Returns an image of the score
+
+        :return: image of the score
+        :rtype: Ipython.display.Image
+        """
         img = displayNotes(self.voices, self.time_signature)
         return img
 
@@ -393,6 +349,7 @@ class Piece:
                 t += notelen
 
     def play(self):
+        """plays the midi file for the piece"""
         with open("./music_file.mid", "wb") as output_file:
             self.midi.writeFile(output_file)
 
@@ -401,4 +358,5 @@ class Piece:
         pygame.mixer.music.play()
 
     def stop(self):
+        """stops the playing of the piece's midi file"""
         pygame.mixer.music.stop()
