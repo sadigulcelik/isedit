@@ -4,7 +4,7 @@ Examples
 ## Basic setings 
 <br>
 
-All notes are quarter notes by default
+Notes are quarter notes by default
 ```python
 import isedit
 Piece = isedit.Piece
