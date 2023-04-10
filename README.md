@@ -5,6 +5,7 @@ A python library that combines score editing tools with audio output.<br>
 [![codecov](https://codecov.io/gh/sadigulcelik/isedit/branch/main/graph/badge.svg?token=Y3YYB6AYD1)](https://codecov.io/gh/sadigulcelik/isedit)
 ![image](https://img.shields.io/badge/license-Apache--2.0-brightgreen)
 ![image](https://img.shields.io/github/issues/sadigulcelik/isedit)
+[![docs](https://img.shields.io/badge/docs-is%20edit-blue)](https://sadigulcelik.github.io/isedit/)
 
 ## Overview
 
