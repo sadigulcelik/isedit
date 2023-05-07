@@ -81,6 +81,17 @@ p1.play()
 p1.getScore()
 ```
 
+## Score Object
+The score object lets you edit in real time. The edits will transfer to the lilypond score output and the play object.
+
+```python
+Piece = isedit.Piece
+p1 = Piece(120)
+p1.addVoice("c' d' e' f'")
+p1.addVoice("g1")
+p1.getScoreObject()
+```
+
 
 
 

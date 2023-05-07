@@ -3,6 +3,9 @@
 #########
 develop:  ## install dependencies and build library
 	python -m pip install -e .[develop]
+	jupyter nbextension install --py --symlink --overwrite --sys-prefix isedit
+	jupyter nbextension enable --py --sys-prefix isedit
+	jupyter labextension develop --overwrite isedit
 
 test-develop:
 	sudo apt install portaudio19-dev python3-pyaudio

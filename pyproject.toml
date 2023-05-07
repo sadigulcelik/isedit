@@ -51,7 +51,10 @@ develop = [
     "midiutil",
     "pygame", 
     "deprecation",
-    "ipywidgets"
+    "ipywidgets",
+    "jupyter_packaging",
+    "jupyter",
+    "jupyterlab"
     
 ]
 

@@ -68,7 +68,6 @@ def _generatePng(temp_dir):
     lpdir = "lilypond"
     filepath = str(os.path.join(temp_dir, "file.ly"))
     pngpath = str(os.path.join(temp_dir, "preview"))
-    print(lpdir + " -fpng -dresolution=300 -dpreview -o " + pngpath + "/ " + filepath)
     subprocess.run(
         lpdir + " -fpng -dresolution=300 -dpreview -o " + pngpath + "/ " + filepath,
         # lpdir + " -dbackend=eps -dresolution=600 --png -o " + pngpath + "/ " + filepath,
@@ -294,6 +293,11 @@ class Piece:
         self.score_object = Ipyscore()
 
     def getScoreObject(self):
+        """Gets an editable object of the score
+
+        :return: an object with a widget for the score and text entry to change notes
+        :rtype: widgets.VBox
+        """
         box = [self.score_object]
         for v in self.live_voices:
             box.append(v)
@@ -309,6 +313,8 @@ class Piece:
             keys, durations = getVexVoices([lv.value for lv in self.live_voices])
             self.score_object.nkeys = keys
             self.score_object.durations = durations
+            self.voices = [lv.value for lv in self.live_voices]
+            self._setMidi()
         except:
             donothing = True
 
