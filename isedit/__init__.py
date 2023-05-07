@@ -7,9 +7,10 @@ Provides
 
 """
 
+from ._version import __version__
 
-__version__ = "0.2.0"
-NPM_PACKAGE_RANGE='^0.1.0'
+
+NPM_PACKAGE_RANGE = '^0.1.0'
 
 from .Base import Piece
 from .VexConversion import getVexVoices
@@ -30,10 +31,12 @@ def _jupyter_labextension_paths():
         from `src` directory into <jupyter path>/labextensions/<dest> directory
         during widget installation
     """
-    return [{
-        'src': 'labextension',
-        'dest': 'isedit',
-    }]
+    return [
+        {
+            'src': 'labextension',
+            'dest': 'isedit',
+        }
+    ]
 
 
 def _jupyter_nbextension_paths():
@@ -53,10 +56,4 @@ def _jupyter_nbextension_paths():
     require: Path to importable AMD Javascript module inside the
         <jupyter path>/nbextensions/<dest> directory
     """
-    return [{
-        'section': 'notebook',
-        'src': 'nbextension',
-        'dest': 'isedit',
-        'require': 'isedit/extension'
-    }]
-
+    return [{'section': 'notebook', 'src': 'nbextension', 'dest': 'isedit', 'require': 'isedit/extension'}]

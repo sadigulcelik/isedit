@@ -30,5 +30,5 @@ class Ipyscore(widgets.DOMWidget):
     # is automatically synced to the frontend *any* time it changes in Python.
     # It is synced back to Python from the frontend *any* time the model is touched.
     value = List(['text']).tag(sync=True)
-    nkeys = List(['c/4','c/4','c/4','c/4']).tag(sync=True)
-    durations = List(['q','q','q','qd']).tag(sync=True)
+    nkeys = List([["cn/4"]]).tag(sync=True)
+    durations = List([["q"]]).tag(sync=True)
