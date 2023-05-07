@@ -83,9 +83,9 @@ target/
 .DS_Store
 
 # javascript
-node_modules/
-isedit/nbextension/
-isedit/labextension/
+**/node_modules/
+isedit/nbextension/index.*
+isedit/labextension/static/
 
 # IPython
 profile_default/
@@ -137,3 +137,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+!isedit/labextension/package.json
+!isedit/nbextension/extension.js
+!isedit/nbextension/index.js
+
+js/dist/index.js
