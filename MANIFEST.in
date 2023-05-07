@@ -1,4 +1,14 @@
-graft isedit
+prune **/node_modules
+prune **/.ipynb_checkpoints
+prune **/labextension/static
+include isedit.json
+
+include LICENSE
+include setup.py
+include setup.cfg
+include pyproject.toml
+include install.json
+
 
 include LICENSE
 include README.md
@@ -19,6 +29,14 @@ recursive-include docs *.md
 recursive-include docs *.py
 recursive-include docs *.rst
 recursive-include docs Makefile
+recursive-include isedit *.json
+recursive-include isedit *.py
+recursive-include js *.js
+recursive-include js *.json
+recursive-include js *.lock
+recursive-include js *.md
+
+exclude js/dist/index.js
 
 # Patterns to exclude from any directory
 global-exclude *~
@@ -28,3 +46,4 @@ global-exclude .git
 global-exclude .ipynb_checkpoints
 global-exclude .DS_Store
 global-exclude tests
+global-exclude *.map

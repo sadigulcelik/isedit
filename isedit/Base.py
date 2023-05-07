@@ -10,6 +10,11 @@ import config
 import deprecation
 from midiutil import MIDIFile
 import pygame
+from .VexConversion import getVexVoices
+import ipywidgets as widgets
+from .ipyscore import Ipyscore
+from ipywidgets import Layout
+
 
 """ Helper function to generate file from voices and time signature
 
@@ -283,6 +288,35 @@ class Piece:
 
         self.instruments = []
         self.voices = []
+        self.live_voices = []
+
+        self.score_object = Ipyscore()
+
+    def getScoreObject(self):
+        """Gets an editable object of the score
+
+        :return: an object with a widget for the score and text entry to change notes
+        :rtype: widgets.VBox
+        """
+        box = [self.score_object]
+        for v in self.live_voices:
+            box.append(v)
+        return widgets.VBox(box)
+
+    def _setScore(self):
+        keys, durations = getVexVoices([lv.value for lv in self.live_voices])
+        self.score_object.nkeys = keys
+        self.score_object.durations = durations
+
+    def _updateScore(self, change):
+        try:
+            keys, durations = getVexVoices([lv.value for lv in self.live_voices])
+            self.score_object.nkeys = keys
+            self.score_object.durations = durations
+            self.voices = [lv.value for lv in self.live_voices]
+            self._setMidi()
+        except:
+            donothing = True
 
     """adds a voice
     
@@ -299,13 +333,32 @@ class Piece:
         :type instrument: int, optional
         """
         if nl is None:
-            self.voices.append(voice)
+            voice_arr = voice.split(" ")
+            for i in range(0, len(voice_arr)):
+                if voice_arr[i][-1] not in "123456789.":
+                    voice_arr[i] += "4 "
+                else:
+                    voice_arr[i] += " "
+
+            result = "".join(voice_arr)
+            self.voices.append(result)
+            ind = len(self.voices)
+            w = widgets.Textarea(
+                description="Voice " + str(ind),
+                continuous_update=True,
+                value=result,
+                style={"background": "#F9F9FF", "description_width": "100px", "font_size": "20pt"},
+                layout=Layout(min_height="50px", min_width="800px"),
+            )
+            w.observe(self._updateScore)
+            self.live_voices.append(w)
         else:
             self._addVoiceNL(voice, nl)
 
         self.instruments.append(instrument)
 
         self._setMidi()
+        self._setScore()
 
     def _addVoiceNL(self, voice, notelengths):
         result = ""
@@ -321,6 +374,17 @@ class Piece:
                 result += voice_arr[i] + _getDurationRepresentation(notelengths[i]) + " "
 
         self.voices.append(result)
+
+        ind = len(self.voices)
+        w = widgets.Textarea(
+            description="Voice " + str(ind),
+            continuous_update=True,
+            value=result,
+            style={"background": "#F9F9FF", "description_width": "100px", "font_size": "20pt"},
+            layout=Layout(min_height="50px", min_width="800px"),
+        )
+        w.observe(self._updateScore)
+        self.live_voices.append(w)
 
     def getScore(self):
         """Returns an image of the score
