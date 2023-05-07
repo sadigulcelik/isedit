@@ -83,6 +83,11 @@ target/
 # Other
 .DS_Store
 
+# javascript
+node_modules/
+isedit/nbextension/
+isedit/labextension/
+
 # IPython
 profile_default/
 ipython_config.py

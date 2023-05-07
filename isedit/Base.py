@@ -10,6 +10,9 @@ import config
 import deprecation
 from midiutil import MIDIFile
 import pygame
+from .VexConversion import getVexVoices
+from .ipyscore import Ipyscore
+
 
 """ Helper function to generate file from voices and time signature
 
@@ -284,10 +287,23 @@ class Piece:
         self.instruments = []
         self.voices = []
 
+        self.score_object = Ipyscore()
+
+    def getScoreObject(self):
+        return self.score_object
+
+    def _setScore(self):
+        keys, durations = getVexVoices(self.voices)
+        print(keys)
+        self.score_object.nkeys = keys[-1]
+        self.score_object.durations = durations[-1]
+
+
+
+
     """adds a voice
     
     """
-
     def addVoice(self, voice, nl=None, instrument=1):
         """_summary_
 
@@ -299,13 +315,23 @@ class Piece:
         :type instrument: int, optional
         """
         if nl is None:
-            self.voices.append(voice)
+            voice_arr = voice.split(" ");
+            for i in range(0,len(voice_arr)):
+
+                if(voice_arr[i][-1] not in "123456789"):
+                    voice_arr[i] += "4 "
+                else:
+                    voice_arr[i] += " "
+
+            
+            self.voices.append("".join(voice_arr))
         else:
             self._addVoiceNL(voice, nl)
 
         self.instruments.append(instrument)
 
         self._setMidi()
+        self._setScore()
 
     def _addVoiceNL(self, voice, notelengths):
         result = ""

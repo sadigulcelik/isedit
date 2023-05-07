@@ -1,4 +1,19 @@
 graft isedit
+graft isedit/nbextension
+graft isedit/labextension
+graft js
+graft tests
+
+
+prune **/node_modules
+
+include isedit.json
+
+include LICENSE
+include setup.py
+include setup.cfg
+include pyproject.toml
+include install.json
 
 include LICENSE
 include README.md
@@ -28,3 +43,4 @@ global-exclude .git
 global-exclude .ipynb_checkpoints
 global-exclude .DS_Store
 global-exclude tests
+global-exclude *.map
