@@ -50,6 +50,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#basic-setings">Basic setings</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#changing-note-lengths">Changing note lengths</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#multiple-voices">Multiple voices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#score-object">Score Object</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="isedit.html">isedit package</a></li>
@@ -141,6 +142,17 @@
 <span class="n">p1</span><span class="o">.</span><span class="n">addVoice</span><span class="p">(</span><span class="s2">&quot;g2.&quot;</span><span class="p">)</span>
 <span class="n">p1</span><span class="o">.</span><span class="n">play</span><span class="p">()</span>
 <span class="n">p1</span><span class="o">.</span><span class="n">getScore</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="score-object">
+<h2>Score Object<a class="headerlink" href="#score-object" title="Permalink to this heading">¶</a></h2>
+<p>The score object lets you edit in real time. The edits will transfer to the lilypond score output and the play object.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Piece</span> <span class="o">=</span> <span class="n">isedit</span><span class="o">.</span><span class="n">Piece</span>
+<span class="n">p1</span> <span class="o">=</span> <span class="n">Piece</span><span class="p">(</span><span class="mi">120</span><span class="p">)</span>
+<span class="n">p1</span><span class="o">.</span><span class="n">addVoice</span><span class="p">(</span><span class="s2">&quot;c&#39; d&#39; e&#39; f&#39;&quot;</span><span class="p">)</span>
+<span class="n">p1</span><span class="o">.</span><span class="n">addVoice</span><span class="p">(</span><span class="s2">&quot;g1&quot;</span><span class="p">)</span>
+<span class="n">p1</span><span class="o">.</span><span class="n">getScoreObject</span><span class="p">()</span>
 </pre></div>
 </div>
 </section>
